@@ -1,78 +1,73 @@
 import { useState } from "react";
-import { createTask } from "../services/taskService";
+import { createTask } from "../services/TaskService";
 
-function TaskForm({ refresh }) {
+export default function TaskForm({ refresh }) {
   const [task, setTask] = useState({
     title: "",
     description: "",
-    priority: "LOW",
-    dueDate: "",
+    priority: "MEDIUM",
     assigneeEmail: "",
+    dueDate: "",
   });
 
-  const handleChange = (e) => {
-    setTask({ ...task, [e.target.name]: e.target.value });
+  const change = (e) => {
+    setTask({
+      ...task,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  const handleSubmit = async (e) => {
+  const submit = async (e) => {
     e.preventDefault();
+
+    if (!task.title) {
+      alert("Title required");
+      return;
+    }
+
     await createTask(task);
     refresh();
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="bg-white shadow-md rounded p-6 mb-6"
-    >
-      <h2 className="text-xl font-bold mb-4">Create Task</h2>
+    <form className="bg-white p-4 shadow rounded mb-6" onSubmit={submit}>
+      <input
+        name="title"
+        placeholder="Title"
+        className="border p-2 w-full mb-2"
+        onChange={change}
+      />
 
-      <div className="grid grid-cols-2 gap-4">
-        <input
-          name="title"
-          placeholder="Task title"
-          onChange={handleChange}
-          className="border p-2 rounded"
-          required
-        />
+      <textarea
+        name="description"
+        placeholder="Description"
+        className="border p-2 w-full mb-2"
+        onChange={change}
+      />
 
-        <select
-          name="priority"
-          onChange={handleChange}
-          className="border p-2 rounded"
-        >
-          <option value="LOW">LOW</option>
-          <option value="MEDIUM">MEDIUM</option>
-          <option value="HIGH">HIGH</option>
-        </select>
+      <input
+        name="assigneeEmail"
+        placeholder="Assignee Email"
+        className="border p-2 w-full mb-2"
+        onChange={change}
+      />
 
-        <input
-          name="description"
-          placeholder="Description"
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
+      <input
+        type="date"
+        name="dueDate"
+        className="border p-2 w-full mb-2"
+        onChange={change}
+      />
 
-        <input
-          type="date"
-          name="dueDate"
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
+      <select name="priority" className="border p-2 mb-2" onChange={change}>
+        <option>LOW</option>
+        <option>MEDIUM</option>
+        <option>HIGH</option>
+      </select>
 
-        <input
-          name="assigneeEmail"
-          placeholder="Assignee email"
-          onChange={handleChange}
-          className="border p-2 rounded col-span-2"
-        />
-      </div>
-
-      <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded">
+      <button className="bg-blue-500 text-white px-4 py-2 rounded">
         Create Task
       </button>
     </form>
   );
 }
-
-export default TaskForm;
