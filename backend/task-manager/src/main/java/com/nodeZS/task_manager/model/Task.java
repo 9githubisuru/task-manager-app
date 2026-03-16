@@ -1,4 +1,35 @@
 package com.nodeZS.task_manager.model;
 
+import jakarta.persistence.*;
+import lombok.*;
+import java.time.*;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Task {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable=false, length=255)
+    private String title;
+
+    private String description;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    @Enumerated(EnumType.STRING)
+    private Priority priority;
+
+    private LocalDate dueDate;
+
+    private String assigneeEmail;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime completedAt;
 }

@@ -1,4 +1,7 @@
 package com.nodeZS.task_manager.model;
 
-public class Priority {
+public enum Priority {
+    LOW,
+    MEDIUM,
+    HIGH
 }

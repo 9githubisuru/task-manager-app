@@ -1,4 +1,7 @@
 package com.nodeZS.task_manager.model;
 
-public class Status {
+public enum Status {
+    TODO,
+    IN_PROGRESS,
+    DONE
 }
